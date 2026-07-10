@@ -23,7 +23,7 @@ from trendradar.context import AppContext
 from trendradar import __version__
 from trendradar.core import load_config, parse_multi_account_config, validate_paired_configs
 from trendradar.core.analyzer import convert_keyword_stats_to_platform_stats
-from trendradar.crawler import DataFetcher
+from trendradar.crawler import DataFetcher, Collector
 from trendradar.storage import convert_crawl_results_to_news_data
 from trendradar.utils.time import DEFAULT_TIMEZONE, is_within_days, calculate_days_old
 from trendradar.ai import AIAnalyzer, AIAnalysisResult
@@ -226,6 +226,7 @@ class NewsAnalyzer:
             self.proxy_url,
             api_url=self.ctx.config.get("PLATFORMS_API_URL") or None,
         )
+        collector = Collector()
 
         # RSS/平台元数据（用于报告头部展示）
         self._rss_source_total = 0
@@ -1113,6 +1114,12 @@ class NewsAnalyzer:
         results, id_to_name, failed_ids = self.data_fetcher.crawl_websites(
             ids, self.request_interval, domain_rules=domain_rules
         )
+        html_results = collector.collect_html()
+
+        print(
+        f"HTML采集数量: {len(html_results)}"
+        )
+
 
         # 转换为 NewsData 格式并保存到存储后端
         crawl_time = self.ctx.format_time()
