@@ -1,0 +1,28 @@
+# HTML crawler sources
+
+sources:
+
+  - id: wublock123
+
+    name: 吴说区块链
+
+    type: html
+
+    url: https://www.wublock123.com
+
+
+    # 首页文章列表选择器
+    # 后续根据实际网页结构调整
+    list_selector: "article"
+
+
+    # 标题
+    title_selector: "h2, h3, a"
+
+
+    # 链接
+    link_selector: "a"
+
+
+    # 时间
+    time_selector: "time"
